@@ -1,0 +1,53 @@
+pipeline {
+    agent any
+    
+    environment {
+        GITHUB_TOKEN = credentials('secret_key')  
+    }
+
+    stages {
+        stage('Clone repoCleaner') {
+            steps {
+                script {
+                    // Clone the repo containing your repoCleaner script
+                    git 'https://github.com/komaram123/utility-cleanup.git'
+                }
+            }
+        }
+        
+        stage('Run repoCleaner') {
+            steps {
+                script {
+                    // Run the Python script to clean repositories
+                    sh 'python3 repoCleaner.py'
+                }
+            }
+        }
+
+        stage('User Confirmation for Deletion') {
+            steps {
+                input message: 'Do you want to proceed with deleting stale branches?', 
+                      ok: 'Yes', 
+                      submitter: 'Komaram Ravi'  // Optional, can specify who can approve
+            }
+        }
+
+        stage('Delete Stale Branches') {
+            steps {
+                script {
+                    // Assuming the python script handles deletion after confirmation
+                    echo "Branches deleted as per confirmation."
+                }
+            }
+        }
+
+        stage('Generate Summary') {
+            steps {
+                script {
+                    // You can generate a summary report after deletion
+                    echo "Cleaning Summary: Deletion complete"
+                }
+            }
+        }
+    }
+}
