@@ -19,7 +19,7 @@ pipeline {
             steps {
                 script {
                     // Run the Python script to clean repositories
-                    sh 'python3 repoCleaner.py'
+                    sh 'python utility_cleanup.py'
                 }
             }
         }
