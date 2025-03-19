@@ -79,5 +79,5 @@ def clean_repos():
         if len(stale_branches) == len(branches):
             print(f"Recommendation: Delete repository {repo} as all branches are stale.")
 
-if _name_ == "_main_":
+if __name__ == "__main__":
     clean_repos()
